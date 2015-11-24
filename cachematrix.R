@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
+## Cache a matrix inversion value
 ## functions do
 
-## Write a short comment describing this function
-
+## This function stores the values and the 
 makeCacheMatrix <- function(x = matrix()) {
-
+      i <<- NULL
+      get <- function() x
+      set <- function(y){
+            x <<- y
+            i <<- NULL
+      }
+      getinversion <- function() i
+      setinversion <- function(inversion){
+            i <<- inversion
+      }
+      list(get = get, set = set, 
+           getinversion = getinversion, 
+           setinversion = setinversion)
 }
 
 
-## Write a short comment describing this function
+## Input must be a list in the format of objects output by makeCacheMatrix.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+      ii <- x$getinversion()
+      if (!is.null(ii)){
+            message("Getting cached data")
+            return(ii)
+      }
+      data <- solve(x$get())
+      x$setinversion(data)
+      
 }
